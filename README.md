@@ -3,8 +3,8 @@
 
 This package consists of two abstractions `worker` and `dispatcher` both interact to get process a job distributed among several workers. You can run the example and see the difference.
 
-avg time 10 sequential runs := 17.25387443 Seconds
-avg time 10 concurrent runs := 1.494497171 Seconds
+* Avg. time 16 sequential runs := 60.91 Seconds (one worker)
+* Avg. time 16 concurrent runs := 2.220 Seconds (32 workers)
 
 ## Getting started
 ### Build and run it
@@ -93,6 +93,38 @@ func CallApi(id int, job worker.Job) error {
 	log.Printf("%d  :: ok", id)
 	return nil
 }
+```
+
+### Benchmarks
+The benchmark would give different results on different machines. To run benchmark on your machine, run below commands:
+
+```shell
+cd benchmarks
+go test -bench=.
+```
+
+```shell
+goos: windows
+goarch: amd64
+pkg: github.com/teocci/go-concurrent-job/benchmarks
+cpu: Intel(R) Core(TM) i7-10700 CPU @ 2.90GHz
+Benchmark
+Benchmark/Concurrent
+Benchmark/Concurrent/1_worker
+Benchmark/Concurrent/1_worker-16         	       1	60913188000 ns/op
+Benchmark/Concurrent/2_workers
+Benchmark/Concurrent/2_workers-16        	       1	29714492700 ns/op
+Benchmark/Concurrent/4_workers
+Benchmark/Concurrent/4_workers-16        	       1	15252904600 ns/op
+Benchmark/Concurrent/8_workers
+Benchmark/Concurrent/8_workers-16        	       1	7634582700 ns/op
+Benchmark/Concurrent/16_workers
+Benchmark/Concurrent/16_workers-16       	       1	4009297900 ns/op
+Benchmark/Concurrent/32_workers
+Benchmark/Concurrent/32_workers-16       	       1	2220909500 ns/op
+PASS
+
+Process finished with the exit code 0
 ```
 
 [1]: https://pkg.go.dev/badge/github.com/teocci/go-concurrent-job.svg
